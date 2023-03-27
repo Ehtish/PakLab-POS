@@ -1,6 +1,14 @@
 <?php $active_page = 'profit';?>
 <?php include 'inc/header.php' ?>
 <?php include 'inc/navbar.php' ?>
+<?php include 'config/db.php' ?>
+<?php
+// Include TCPDF library
+require_once('tcpdf/tcpdf.php');
+
+
+?>
+
 <div class="container mt-5">
   <h1>Profit/Loss Statement Report</h1>
   <div class="row mt-5">
@@ -9,12 +17,12 @@
       <h3>Report Parameters</h3>
       <form>
         <div class="form-group">
-          <label for="start-date">From Date:</label>
-          <input type="date" class="form-control" id="start-date" />
+          <label for="from-date">From Date:</label>
+          <input type="date" class="form-control" id="from-date" name="from_date" />
         </div>
         <div class="form-group">
-          <label for="end-date">To Date:</label>
-          <input type="date" class="form-control" id="end-date" />
+          <label for="to-date">To Date:</label>
+          <input type="date" class="form-control" id="to-date" name="to_date" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="submit" class="btn btn-primary">

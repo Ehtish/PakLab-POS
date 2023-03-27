@@ -1,0 +1,95 @@
+footer code
+<footer class="bg-dark mt-3 py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 text-center text-white">
+            <p>&copy; 2023 Pak Lab. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer> 
+ 
+ Icons for dashboard
+
+   <!-- Here are some icons that could be used for the following code:
+
+            Total Sales: dollar sign icon (e.g. <i class="fas fa-dollar-sign"></i>)
+            Total Profit: money bill icon (e.g. <i class="fas fa-money-bill"></i>)
+            Total Products: shopping bag icon (e.g. <i class="fas fa-shopping-bag"></i>)
+
+Here are some sections that could be included on a point of sale dashboard home page:
+
+Sales summary: Total sales, total profit, and top-selling products.
+Financial summary: Revenue trends, profit margins, and expenses overview.
+Analytics: Charts and graphs to visualize sales data, customer behavior, and inventory trends.
+Alerts and notifications: Low inventory alerts, upcoming events, and important messages.
+Quick actions: Buttons or links to common tasks, such as adding a new product or processing a sale.
+
+
+Database queries
+CREATE TABLE products (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  brand_name VARCHAR(255) NOT NULL,
+  description TEXT,
+  sales_price DECIMAL(10, 2) NOT NULL,
+  cost DECIMAL(10, 2) NOT NULL,
+  stock INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE sales (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  product_id INT(11) NOT NULL,
+  date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'dd-mm-yy',
+  sales_price DECIMAL(10, 2) NOT NULL,
+  cost DECIMAL(10, 2) NOT NULL,
+  quantity INT(11) NOT NULL,
+  total DECIMAL(10, 2) NOT NULL,  
+  PRIMARY KEY (id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE income (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  sales_date DATE NOT NULL DEFAULT '0000-00-00' COMMENT 'dd-mm-yy',
+  total_sales DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  total_cost DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  profit DECIMAL(10, 2) GENERATED ALWAYS AS (total_sales - total_cost) STORED,
+  PRIMARY KEY (id),
+  FOREIGN KEY (sales_date) REFERENCES sales(date)
+);
+
+
+INSERT INTO products (name, description, stock)
+VALUES
+  ('Product 1', 'This is the first product', 10),
+  ('Product 2', 'This is the second product', 5),
+  ('Product 3', 'This is the third product', 2),
+  ('Product 4', 'This is the fourth product', 15),
+  ('Product 5', 'This is the fifth product', 20),
+  ('Product 6', 'This is the sixth product', 8),
+  ('Product 7', 'This is the seventh product', 12),
+  ('Product 8', 'This is the eighth product', 4),
+  ('Product 9', 'This is the ninth product', 0),
+  ('Product 10', 'This is the tenth product', 3),
+  ('Product 11', 'This is the eleventh product', 6),
+  ('Product 12', 'This is the twelfth product', 18);
+
+
+
+
+
+In this query, the "sales" table has four columns: "id", "product_id", "sale_date",
+and "quantity".
+The "id" column is defined as an auto-incrementing integer and set as the primary key.
+The "product_id" column is defined as an integer and will store the ID of the 
+product being sold.
+The "sale_date" column is defined as a date field and will store the date of the sale.
+Finally, the "quantity" column is defined as an integer and will store the quantity 
+of the product sold.
+Note that there is also a foreign key constraint on the "product_id" column, which 
+references the "id" column of the "products" table. This ensures that only valid 
+product IDs can be inserted into the "product_id" column, and that if a product 
+is deleted from the "products" table, any associated sales records will also be 
+automatically deleted (due to the "ON DELETE CASCADE" option).
