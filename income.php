@@ -2,12 +2,6 @@
 <?php include 'inc/header.php' ?>
 <?php include 'inc/navbar.php' ?>
 <?php include 'config/db.php' ?>
-<?php
-// Include TCPDF library
-require_once('tcpdf/tcpdf.php');
-
-
-?>
 
 <div class="container mt-5">
   <h1>Profit/Loss Statement Report</h1>
@@ -15,7 +9,7 @@ require_once('tcpdf/tcpdf.php');
     <!-- Report parameters form -->
     <div class="col-md-4 my-2">
       <h3>Report Parameters</h3>
-      <form>
+      <form method="post">
         <div class="form-group">
           <label for="from-date">From Date:</label>
           <input type="date" class="form-control" id="from-date" name="from_date" />
@@ -25,9 +19,7 @@ require_once('tcpdf/tcpdf.php');
           <input type="date" class="form-control" id="to-date" name="to_date" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="submit" class="btn btn-primary">
-          Generate Report
-        </button>
+       <a href="income.php" class="btn btn-secondary">Back</a>
       </form>
     </div>
     <!-- Report parameters form -->
@@ -45,27 +37,62 @@ require_once('tcpdf/tcpdf.php');
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>2023-03-01</td>
-            <td>$500</td>
-            <td>$200</td>
-            <td>$300</td>
-          </tr>
-          <tr>
-            <td>2023-03-02</td>
-            <td>$750</td>
-            <td>$300</td>
-            <td>$450</td>
-          </tr>
-          <tr>
-            <td>2023-03-03</td>
-            <td>$1,000</td>
-            <td>$400</td>
-            <td>$600</td>
-          </tr>
+          <?php
+          function get_total_costs_for_date($conn, $date) {
+            $sql_cost = "SELECT SUM(cost * quantity) AS total_costs FROM products INNER JOIN sales ON products.id = sales.product_id WHERE DATE(sales.sale_date) = '$date'";
+            $result_cost = $conn->query($sql_cost);
+            $row_cost = $result_cost->fetch_assoc();
+            return $row_cost['total_costs'];
+          }
+
+          if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Get the submitted dates
+            $from_date = $_POST['from_date'];
+            $to_date = $_POST['to_date'];
+
+            // Retrieve the sales data grouped by date and filtered by the submitted dates
+            $sql = "SELECT DATE(sale_date) AS date, SUM(total) AS total_sales FROM sales WHERE DATE(sale_date) BETWEEN '$from_date' AND '$to_date' GROUP BY DATE(sale_date)";
+          } else {
+            // Retrieve the sales data grouped by date
+            $sql = "SELECT DATE(sale_date) AS date, SUM(total) AS total_sales FROM sales GROUP BY DATE(sale_date)";
+          }
+
+          $result = $conn->query($sql);
+
+          if ($result === false) {
+            // Query failed, display error message and exit
+            echo "Error: " . $conn->error;
+            exit;
+          }
+
+          // Loop through each date and calculate the total costs and profit/loss
+          while ($row = $result->fetch_assoc()) {
+            $date = $row['date'];
+            $total_sales = $row['total_sales'];
+
+            // Retrieve the cost of goods sold for this date
+            $total_costs = get_total_costs_for_date($conn, $date);
+
+            // Calculate the profit/loss
+            $profit_loss = $total_sales - $total_costs;
+
+            // Display the data in the table
+            echo "<tr>";
+            echo "<td>" . $date . "</td>";
+            echo "<td>" . number_format($total_sales) . "</td>";
+            echo "<td>" . number_format($total_costs) . "</td>";
+            echo "<td>" . number_format($profit_loss) . "</td>";
+            echo "</tr>";
+          }
+
+          // Close the database connection
+          $conn->close();
+          ?>
+
         </tbody>
       </table>
     </div>
+
     <!-- Report result end -->
   </div>
 </div>

@@ -114,9 +114,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           <span class="input-group-text">Brand Name</span>
           <select class="form-select" aria-label="Brand Name" id="brand" name="brand_name">
             <option selected>Choose a brand</option>
-            <option value="Brand A">Brand A</option>
-            <option value="Brand B">Brand B</option>
-            <option value="Brand C">Brand C</option>
+            <option value="oppo">oppo</option>
+            <option value="vivo">vivo</option>
+            <option value="samsung">samsung</option>
           </select>
         </div>
         <div class="form-group">
@@ -177,7 +177,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
               echo "<td>" . $row["cost"] . "</td>";
               echo "<td>" . $row["stock"] . "</td>";
               echo "<td>";
-              echo "<a href='edit_product.php?id=" . $row["id"] . "' class=\"btn btn-primary btn-sm\">Edit</a>";
+              echo "<a href='edit_product.php?id=" . $row["id"] . "' class=\"btn btn-primary btn-sm\">Edit</a> ";
               echo "<a href=\"delete_product.php?id=" . $row["id"] . "\" class=\"btn btn-danger btn-sm\">Delete</a>";
               echo "</td>";
               echo "</tr>";

@@ -14,7 +14,7 @@ if (isset($_GET["id"])) {
 mysqli_close($conn);
 
 // Redirect back to the product list page
-header("Location: pr.php");
+header("Location: products.php");
 exit();
 
 ?>
