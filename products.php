@@ -146,7 +146,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="col-md-9">
       <h2>Product List</h2>
       <p>View and manage products:</p>
-      <table class="table table-bordered table-hover">
+      <table id="example" class="table table-bordered table-hover">
         <thead>
           <tr>
             <th>ID</th>

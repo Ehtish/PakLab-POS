@@ -27,7 +27,7 @@
     <!-- Report result  -->
     <div class="col-md-7 my-2">
       <h3>Report Results</h3>
-      <table class="table table-hover">
+      <table id="example" class="table table-hover">
         <thead>
           <tr>
             <th>Date</th>
