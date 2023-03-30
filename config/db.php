@@ -3,9 +3,9 @@
 $server = "localhost";
 $username ="root";
 $password = "2345";
-$db = "db_name";
+$db = "paklab";
 
-$con = mysqli_connect($server,$username,$password,$db);
+$conn = mysqli_connect($server,$username,$password,$db);
 
 if(mysqli_connect_errno()){
 		// Connection Failed
