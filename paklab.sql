@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2023 at 10:01 PM
+-- Generation Time: Apr 10, 2023 at 10:06 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -47,8 +47,7 @@ INSERT INTO `brand` (`id`, `name`) VALUES
 (7, '1+'),
 (8, 'Huawei'),
 (9, 'Iphone'),
-(10, 'Realme'),
-(11, 'abv');
+(10, 'Realme');
 
 -- --------------------------------------------------------
 
