@@ -110,14 +110,34 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label for="name">Name:</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Enter product name" required>
         </div>
-        <div class="form-group input-group">
+        <!-- <div class="form-group input-group">
           <span class="input-group-text">Brand Name</span>
           <select class="form-select" aria-label="Brand Name" id="brand" name="brand_name">
             <option selected>Choose a brand</option>
-            <option value="oppo">oppo</option>
-            <option value="vivo">vivo</option>
-            <option value="samsung">samsung</option>
+            <option value="smasung">Samsung</option>
+            
           </select>
+        </div> -->
+        <?php  
+        // Query the database to fetch data from the "brand" table
+        $sql = "SELECT id, name FROM brand";
+        $result = mysqli_query($conn, $sql);
+        ?>
+        <div class="form-group">
+        <?php  
+        // Generate HTML for the dropdown menu
+        if (mysqli_num_rows($result) > 0) {
+          echo '<select class="form-control" name="brand_id" id="brand_id">';
+          echo '<option value="">Select Brand</option>';
+          while ($row = mysqli_fetch_assoc($result)) {
+            echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+            echo '<option value="Others">Others</option>';
+          }
+          echo '</select>';
+        } else {
+          echo 'No data found in the brand table';
+        }
+        ?>
         </div>
         <div class="form-group">
           <label for="description">Description:</label>
